@@ -4,6 +4,7 @@ import itertools
 from pprint import pprint
 import random
 from matplotlib import pyplot as plt
+import numpy as np
 
 all_red_bag = 10
 all_red_bag_money = 20
@@ -12,7 +13,7 @@ remain_red_bag = all_red_bag
 # 每个次序抢到的金额
 all_money_list = []
 # 循环次数
-loop = 1
+loop = 100
 
 def generate_red_bag(remain_money,remain_red_bag):
     """
@@ -34,15 +35,34 @@ def generate_red_bag(remain_money,remain_red_bag):
     water_radom = round(random.uniform(water_bottom,water_top),2)
     water_remainder = round(water_top % water_radom,2)
 
+    # 计算余数为0或0.01的概率
+    # probably_list = []
+    # for i in np.arange(water_bottom, water_top+water_bottom, water_bottom):
+    #     if water_top % i == 0 or abs(water_top%i-0.01)<1e-5:
+    #         probably_list.append(i)
+
     # 根据余数计算红包金额
-    print("余数是:{}, 上水位是:{}, 随机数是:{}".format(water_remainder,water_top,water_radom))
     if water_remainder > water_bottom:
         current_money = water_radom
     else:
         current_money = water_bottom
 
+    # 打印数据
+    # print("当前是第:{}个, 余数是:{}, 上水位是:{}, 随机数是:{}, 余数为0的概率是:{}, 值是:{}".format(all_red_bag-remain_red_bag+1,
+    #                                                                             water_remainder,
+    #                                                                             water_top,
+    #                                                                             water_radom,
+    #                                                                             len(probably_list),
+    #                                                                             current_money
+    #                                                                             ))
+    # print(                                                                      all_red_bag-remain_red_bag+1,
+    #                                                                             water_remainder,
+    #                                                                             water_top,
+    #                                                                             water_radom,
+    #                                                                             # len(probably_list),
+    #                                                                             current_money)
+
     # 返回当前红包金额
-    # print(water_top1,water_top2,current_money)
     return current_money
 
 def generate_red_bag_list(loop):
@@ -92,4 +112,3 @@ def calc_king_sum_data(loop):
     print(king_list,sorted(dict(zip([i for i in range(1,11)],per_station_money)).items(), key=lambda x: x[1],reverse=True),sep="\n")
 
 generate_red_bag_list(loop)
-print(all_money_list)
