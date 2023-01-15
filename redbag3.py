@@ -17,13 +17,13 @@ loop = 1000
 
 # ---阈值设置---
 # 当前上水位超过多少倍平均上水位
-water_rate = 1.5
+water_rate = 1.6
 # 出现下水位的概率小于几
-water_bottom_rate = 20
+water_bottom_rate = 1
 # 没有出现多少倍上水位红包
 no_how_rate_top = 1
 # 没有出现过大于多少的红包
-no_appearance = 2
+no_appearance = 3
 
 def generate_red_bag(remain_money,remain_red_bag):
     """
@@ -206,7 +206,9 @@ def calc_king_sum_data(loop):
 
 generate_red_bag_list(loop)
 
-rank_list = []
+rank_list = 0
+no_bottom_rank_list = 0
+
 for i in all_money_list:
     data = i[10]
     rank = i[11]
@@ -214,5 +216,8 @@ for i in all_money_list:
     rate = i[13]
     # print("当前红包:{} 排第{} 上水位是:{} 下水位概率是:{}".format(data,rank,top,rate))
     if rank<=3:
-        rank_list.append(rank)
-print(sum(rank_list)/loop)
+        rank_list+=1
+    if rank == 10:
+        no_bottom_rank_list+=1
+
+print(rank_list/loop,no_bottom_rank_list/loop)
